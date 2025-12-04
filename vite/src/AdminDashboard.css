@@ -307,74 +307,430 @@
     font-size: 2rem;
 }
 
-.preview-placeholder {
-    color: rgba(255, 255, 255, 0.3);
-    font-style: italic;
+.admin-user i {
+    font-size: 1.5rem;
+    color: #00d4aa;
 }
 
-/* Answer Options */
-.answer-options {
+/* Content Area */
+.admin-content {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Paper Selector */
+.paper-selector {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+}
+
+.paper-btn {
+    flex: 1;
+    padding: 1rem 2rem;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.paper-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.paper-btn.active {
+    background: linear-gradient(135deg, #00d4aa 0%, #00a8e8 100%);
+    color: #ffffff;
+    box-shadow: 0 8px 25px rgba(0, 212, 170, 0.3);
+}
+
+/* Topic Selector */
+.topic-selector {
     margin-bottom: 2rem;
 }
 
-.answer-options h3 {
+.topic-selector label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.topic-dropdown {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.topic-dropdown:hover {
+    border-color: rgba(0, 212, 170, 0.5);
+}
+
+.topic-dropdown:focus {
+    outline: none;
+    border-color: #00d4aa;
+    box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.2);
+}
+
+.topic-dropdown option {
+    background: #2C3E50;
+    color: #ffffff;
+}
+
+/* LaTeX Editor */
+.latex-editor {
+    margin-bottom: 2rem;
+}
+
+.latex-editor h3 {
     font-size: 1.3rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
     color: #00d4aa;
 }
 
-.options-grid {
+.editor-panels {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-}
-
-.option-item {
-    background: rgba(255, 255, 255, 0.05);
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
     padding: 1.5rem;
-    border-radius: 12px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.option-item:hover {
-    border-color: rgba(0, 212, 170, 0.3);
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.option-item label {
+.panel-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-    cursor: pointer;
-}
-
-.option-item input[type="radio"] {
-    width: 20px;
-    height: 20px;
-    accent-color: #00d4aa;
-    cursor: pointer;
-}
-
-.option-label {
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px 12px 0 0;
     font-weight: 600;
     color: #00d4aa;
 }
 
-.option-input {
+.panel-header i {
+    opacity: 0.7;
+}
+
+/* Input Panel */
+.editor-input {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.latex-textarea {
     width: 100%;
-    padding: 0.75rem 1rem;
+    min-height: 300px;
+    padding: 1.5rem;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 1rem;
+    line-height: 1.6;
+    resize: vertical;
+}
+
+.latex-textarea:focus {
+    outline: none;
+}
+
+.latex-hints {
+    padding: 1rem 1.5rem;
+    background: rgba(0, 212, 170, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.latex-hints p {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #00d4aa;
+}
+
+.latex-hints code {
+    display: inline-block;
+    margin: 0.25rem 0.5rem 0.25rem 0;
+    padding: 0.25rem 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+}
+
+/* Preview Panel */
+.editor-preview {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.preview-content {
+    min-height: 300px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.preview-content .katex {
+    font-size: 2rem;
+}
+
+.preview-placeholder {
+    color: rgba(255, 255, 255, 0.3);
+    font-style: italic;
+}
+
+/* Content Builder */
+.content-builder {
+    margin-bottom: 2rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.5rem;
+}
+
+.builder-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.builder-header h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #00d4aa;
+}
+
+.add-block-buttons {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.add-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: rgba(0, 212, 170, 0.1);
+    border: 2px solid rgba(0, 212, 170, 0.3);
+    border-radius: 12px;
+    color: #00d4aa;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-btn:hover {
+    background: rgba(0, 212, 170, 0.2);
+    border-color: #00d4aa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 212, 170, 0.2);
+}
+
+.add-btn i {
+    font-size: 0.9rem;
+}
+
+.blocks-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Content Block */
+.content-block {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.content-block:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(0, 212, 170, 0.3);
+}
+
+.block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.block-type {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 212, 170, 0.2);
+    border-radius: 8px;
+    color: #00d4aa;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.block-type i {
+    font-size: 1rem;
+}
+
+.remove-block-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 107, 53, 0.2);
+    border: none;
+    border-radius: 8px;
+    color: #ff6b35;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.remove-block-btn:hover {
+    background: rgba(255, 107, 53, 0.3);
+    transform: scale(1.1);
+}
+
+/* LaTeX Block */
+.latex-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.latex-input {
+    width: 100%;
+    min-height: 150px;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #ffffff;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    resize: vertical;
+}
+
+.latex-input:focus {
+    outline: none;
+    border-color: #00d4aa;
+    box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.2);
+}
+
+.latex-preview {
+    min-height: 150px;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.latex-preview .katex {
+    font-size: 1.5rem;
+}
+
+/* Image Block */
+.image-block {
+    width: 100%;
+}
+
+.image-input {
+    display: none;
+}
+
+.image-upload-label {
+    display: block;
+    width: 100%;
+    min-height: 200px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px dashed rgba(0, 212, 170, 0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.image-upload-label:hover {
+    border-color: #00d4aa;
+    background: rgba(0, 212, 170, 0.05);
+}
+
+.upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    min-height: 200px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.upload-placeholder i {
+    font-size: 3rem;
+    color: #00d4aa;
+}
+
+.uploaded-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}
+
+/* Text Block */
+.text-block {
+    width: 100%;
+}
+
+.text-input {
+    width: 100%;
+    min-height: 120px;
+    padding: 1rem;
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     color: #ffffff;
     font-size: 1rem;
-    transition: all 0.3s ease;
+    line-height: 1.6;
+    resize: vertical;
 }
 
-.option-input:focus {
+.text-input:focus {
     outline: none;
     border-color: #00d4aa;
     box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.2);
@@ -451,24 +807,64 @@
     }
 }
 
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .latex-block {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-sidebar {
+        width: 80px;
+    }
+
+    .admin-logo h2,
+    .nav-item span {
+        display: none;
+    }
+
+    .admin-main {
+        margin-left: 80px;
+    }
+
+    .paper-selector {
+        flex-direction: column;
+    }
+
+    .add-block-buttons {
+        flex-wrap: wrap;
+    }
+
+    .builder-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
+
 /* Scrollbar Styling */
 .admin-sidebar::-webkit-scrollbar,
-.latex-textarea::-webkit-scrollbar {
+.latex-input::-webkit-scrollbar,
+.text-input::-webkit-scrollbar {
     width: 8px;
 }
 
 .admin-sidebar::-webkit-scrollbar-track,
-.latex-textarea::-webkit-scrollbar-track {
+.latex-input::-webkit-scrollbar-track,
+.text-input::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.05);
 }
 
 .admin-sidebar::-webkit-scrollbar-thumb,
-.latex-textarea::-webkit-scrollbar-thumb {
+.latex-input::-webkit-scrollbar-thumb,
+.text-input::-webkit-scrollbar-thumb {
     background: rgba(0, 212, 170, 0.5);
     border-radius: 4px;
 }
 
 .admin-sidebar::-webkit-scrollbar-thumb:hover,
-.latex-textarea::-webkit-scrollbar-thumb:hover {
+.latex-input::-webkit-scrollbar-thumb:hover,
+.text-input::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 212, 170, 0.7);
 }

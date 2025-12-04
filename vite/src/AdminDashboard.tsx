@@ -3,20 +3,28 @@ import Latex from 'react-latex-next';
 import 'katex/dist/katex.min.css';
 import './AdminDashboard.css';
 
+interface ContentBlock {
+    id: string;
+    type: 'latex' | 'image' | 'text';
+    content: string;
+}
+
 interface Question {
-    latex: string;
     topic: string;
     paper: 1 | 2;
-    options: string[];
-    correctAnswer: number;
+    questionBlocks: ContentBlock[];
+    answerBlocks: ContentBlock[];
 }
 
 const AdminDashboard = () => {
     const [selectedPaper, setSelectedPaper] = useState<1 | 2>(1);
     const [selectedTopic, setSelectedTopic] = useState('');
-    const [latexInput, setLatexInput] = useState('\\int_{a}^{b} x^2 \\, dx');
-    const [options, setOptions] = useState(['', '', '', '']);
-    const [correctAnswer, setCorrectAnswer] = useState(0);
+    const [questionBlocks, setQuestionBlocks] = useState<ContentBlock[]>([
+        { id: '1', type: 'latex', content: '\\int_{a}^{b} x^2 \\, dx' }
+    ]);
+    const [answerBlocks, setAnswerBlocks] = useState<ContentBlock[]>([
+        { id: 'a1', type: 'latex', content: '' }
+    ]);
 
     const paper1Topics = [
         'Algebra',
@@ -37,19 +45,54 @@ const AdminDashboard = () => {
 
     const topics = selectedPaper === 1 ? paper1Topics : paper2Topics;
 
-    const handleOptionChange = (index: number, value: string) => {
-        const newOptions = [...options];
-        newOptions[index] = value;
-        setOptions(newOptions);
+    const addBlock = (section: 'question' | 'answer', type: 'latex' | 'image' | 'text') => {
+        const newBlock: ContentBlock = {
+            id: Date.now().toString(),
+            type,
+            content: ''
+        };
+
+        if (section === 'question') {
+            setQuestionBlocks([...questionBlocks, newBlock]);
+        } else {
+            setAnswerBlocks([...answerBlocks, newBlock]);
+        }
+    };
+
+    const updateBlock = (section: 'question' | 'answer', id: string, content: string) => {
+        if (section === 'question') {
+            setQuestionBlocks(questionBlocks.map(block =>
+                block.id === id ? { ...block, content } : block
+            ));
+        } else {
+            setAnswerBlocks(answerBlocks.map(block =>
+                block.id === id ? { ...block, content } : block
+            ));
+        }
+    };
+
+    const removeBlock = (section: 'question' | 'answer', id: string) => {
+        if (section === 'question') {
+            setQuestionBlocks(questionBlocks.filter(block => block.id !== id));
+        } else {
+            setAnswerBlocks(answerBlocks.filter(block => block.id !== id));
+        }
+    };
+
+    const handleImageUpload = (section: 'question' | 'answer', id: string, file: File) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            updateBlock(section, id, reader.result as string);
+        };
+        reader.readAsDataURL(file);
     };
 
     const handlePublish = () => {
         const question: Question = {
-            latex: latexInput,
             topic: selectedTopic,
             paper: selectedPaper,
-            options,
-            correctAnswer
+            questionBlocks,
+            answerBlocks
         };
 
         console.log('Publishing question:', question);
@@ -57,9 +100,83 @@ const AdminDashboard = () => {
         alert('Question published successfully!');
 
         // Reset form
-        setLatexInput('');
-        setOptions(['', '', '', '']);
-        setCorrectAnswer(0);
+        setQuestionBlocks([{ id: Date.now().toString(), type: 'latex', content: '' }]);
+        setAnswerBlocks([{ id: Date.now().toString(), type: 'latex', content: '' }]);
+    };
+
+    const renderBlock = (block: ContentBlock, section: 'question' | 'answer') => {
+        return (
+            <div key={block.id} className="content-block">
+                <div className="block-header">
+                    <span className="block-type">
+                        <i className={`fas fa-${block.type === 'latex' ? 'code' : block.type === 'image' ? 'image' : 'text'}`}></i>
+                        {block.type.toUpperCase()}
+                    </span>
+                    <button
+                        onClick={() => removeBlock(section, block.id)}
+                        className="remove-block-btn"
+                        title="Remove block"
+                    >
+                        <i className="fas fa-times"></i>
+                    </button>
+                </div>
+
+                {block.type === 'latex' && (
+                    <div className="latex-block">
+                        <textarea
+                            value={block.content}
+                            onChange={(e) => updateBlock(section, block.id, e.target.value)}
+                            placeholder="Enter LaTeX code..."
+                            className="latex-input"
+                            spellCheck={false}
+                        />
+                        <div className="latex-preview">
+                            {block.content ? (
+                                <Latex>{`$$${block.content}$$`}</Latex>
+                            ) : (
+                                <span className="preview-placeholder">Preview...</span>
+                            )}
+                        </div>
+                    </div>
+                )}
+
+                {block.type === 'image' && (
+                    <div className="image-block">
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) handleImageUpload(section, block.id, file);
+                            }}
+                            className="image-input"
+                            id={`image-${block.id}`}
+                        />
+                        <label htmlFor={`image-${block.id}`} className="image-upload-label">
+                            {block.content ? (
+                                <img src={block.content} alt="Uploaded" className="uploaded-image" />
+                            ) : (
+                                <div className="upload-placeholder">
+                                    <i className="fas fa-cloud-upload-alt"></i>
+                                    <span>Click to upload image</span>
+                                </div>
+                            )}
+                        </label>
+                    </div>
+                )}
+
+                {block.type === 'text' && (
+                    <div className="text-block">
+                        <textarea
+                            value={block.content}
+                            onChange={(e) => updateBlock(section, block.id, e.target.value)}
+                            placeholder="Enter text content..."
+                            className="text-input"
+                        />
+                    </div>
+                )}
+            </div>
+        );
     };
 
     return (
@@ -139,72 +256,75 @@ const AdminDashboard = () => {
                         </select>
                     </div>
 
-                    {/* LaTeX Editor */}
-                    <div className="latex-editor">
-                        <h3>Live LaTeX Editor</h3>
-                        <div className="editor-panels">
-                            {/* Input Panel */}
-                            <div className="editor-input">
-                                <div className="panel-header">
-                                    <span>LaTeX Input</span>
-                                    <i className="fa-solid fa-code"></i>
-                                </div>
-                                <textarea
-                                    value={latexInput}
-                                    onChange={(e) => setLatexInput(e.target.value)}
-                                    placeholder="Enter LaTeX code here..."
-                                    className="latex-textarea"
-                                    spellCheck={false}
-                                />
-                                <div className="latex-hints">
-                                    <p>Quick tips:</p>
-                                    <code>\frac{'{'}a{'}'}{'{'} b{'}'}</code> - Fraction
-                                    <code>\int_{'{'}a{'}'}^{'{'}b{'}'}</code> - Integral
-                                    <code>\sqrt{'{'}x{'}'}</code> - Square root
-                                </div>
+                    {/* Question Content Builder */}
+                    <div className="content-builder">
+                        <div className="builder-header">
+                            <h3>Question Content</h3>
+                            <div className="add-block-buttons">
+                                <button
+                                    onClick={() => addBlock('question', 'latex')}
+                                    className="add-btn"
+                                    title="Add LaTeX"
+                                >
+                                    <i className="fas fa-plus"></i>
+                                    <i className="fas fa-code"></i>
+                                </button>
+                                <button
+                                    onClick={() => addBlock('question', 'image')}
+                                    className="add-btn"
+                                    title="Add Image"
+                                >
+                                    <i className="fas fa-plus"></i>
+                                    <i className="fas fa-image"></i>
+                                </button>
+                                <button
+                                    onClick={() => addBlock('question', 'text')}
+                                    className="add-btn"
+                                    title="Add Text"
+                                >
+                                    <i className="fas fa-plus"></i>
+                                    <i className="fas fa-text"></i>
+                                </button>
                             </div>
-
-                            {/* Preview Panel */}
-                            <div className="editor-preview">
-                                <div className="panel-header">
-                                    <span>Live Preview</span>
-                                    <i className="fa-solid fa-eye"></i>
-                                </div>
-                                <div className="preview-content">
-                                    {latexInput ? (
-                                        <Latex>{`$${latexInput}$`}</Latex>
-                                    ) : (
-                                        <p className="preview-placeholder">Preview will appear here...</p>
-                                    )}
-                                </div>
-                            </div>
+                        </div>
+                        <div className="blocks-container">
+                            {questionBlocks.map(block => renderBlock(block, 'question'))}
                         </div>
                     </div>
 
-                    {/* Answer Options */}
-                    <div className="answer-options">
-                        <h3>Answer Options</h3>
-                        <div className="options-grid">
-                            {options.map((option, index) => (
-                                <div key={index} className="option-item">
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="correct"
-                                            checked={correctAnswer === index}
-                                            onChange={() => setCorrectAnswer(index)}
-                                        />
-                                        <span className="option-label">Option {String.fromCharCode(65 + index)}</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={option}
-                                        onChange={(e) => handleOptionChange(index, e.target.value)}
-                                        placeholder={`Enter option ${String.fromCharCode(65 + index)}...`}
-                                        className="option-input"
-                                    />
-                                </div>
-                            ))}
+                    {/* Answer Content Builder */}
+                    <div className="content-builder">
+                        <div className="builder-header">
+                            <h3>Answer Content</h3>
+                            <div className="add-block-buttons">
+                                <button
+                                    onClick={() => addBlock('answer', 'latex')}
+                                    className="add-btn"
+                                    title="Add LaTeX"
+                                >
+                                    <i className="fas fa-plus"></i>
+                                    <i className="fas fa-code"></i>
+                                </button>
+                                <button
+                                    onClick={() => addBlock('answer', 'image')}
+                                    className="add-btn"
+                                    title="Add Image"
+                                >
+                                    <i className="fas fa-plus"></i>
+                                    <i className="fas fa-image"></i>
+                                </button>
+                                <button
+                                    onClick={() => addBlock('answer', 'text')}
+                                    className="add-btn"
+                                    title="Add Text"
+                                >
+                                    <i className="fas fa-plus"></i>
+                                    <i className="fas fa-text"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div className="blocks-container">
+                            {answerBlocks.map(block => renderBlock(block, 'answer'))}
                         </div>
                     </div>
 
@@ -213,7 +333,7 @@ const AdminDashboard = () => {
                         <button
                             onClick={handlePublish}
                             className="publish-btn"
-                            disabled={!selectedTopic || !latexInput || options.every(opt => !opt)}
+                            disabled={!selectedTopic || questionBlocks.every(b => !b.content)}
                         >
                             <i className="fa-solid fa-cloud-arrow-up"></i>
                             Publish Question
