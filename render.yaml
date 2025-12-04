@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: lyro
+    env: node
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: npm install && cd vite && npm install --legacy-peer-deps && cd .. && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    healthCheckPath: /healthz
