@@ -5,6 +5,7 @@ import Learn from './Learn';
 import FormulaSheet from './FormulaSheet';
 import Login from './Login';
 import Signup from './Signup';
+import AdminDashboard from './AdminDashboard';
 import './App.css';
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
         <Route path="/formula-sheet" element={<FormulaSheet />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        {/* Add other routes here, e.g., /learn */}
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );
