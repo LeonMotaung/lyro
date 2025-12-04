@@ -3,13 +3,20 @@ import { Link } from 'react-router-dom';
 import Latex from 'react-latex-next';
 import 'katex/dist/katex.min.css';
 import './Paper.css';
+import './PaperContentBlocks.css';
+
+interface ContentBlock {
+    id: string;
+    type: 'latex' | 'image' | 'text';
+    content: string;
+}
 
 interface Question {
-    id: number;
-    latex: string;
+    _id: string;
     topic: string;
-    options: string[];
-    correctAnswer: number;
+    paper: number;
+    questionBlocks: ContentBlock[];
+    answerBlocks: ContentBlock[];
 }
 
 const Paper1 = () => {
@@ -28,61 +35,42 @@ const Paper1 = () => {
     ];
 
     useEffect(() => {
-        // Fetch questions from API
         fetchQuestions();
     }, [selectedTopic]);
 
     const fetchQuestions = async () => {
         setLoading(true);
         try {
-            // TODO: Replace with actual API call
-            const response = await fetch(`/api/questions/paper/1${selectedTopic !== 'all' ? `?topic=${selectedTopic}` : ''}`);
+            const topicParam = selectedTopic !== 'all' ? `?topic=${encodeURIComponent(selectedTopic)}` : '';
+            const response = await fetch(`http://localhost:3000/api/questions/paper/1${topicParam}`);
 
             if (response.ok) {
                 const data = await response.json();
                 setQuestions(data);
             } else {
-                // Mock data for development
-                setQuestions(getMockQuestions());
+                console.error('Failed to fetch questions');
+                setQuestions([]);
             }
         } catch (error) {
             console.error('Error fetching questions:', error);
-            // Use mock data if API fails
-            setQuestions(getMockQuestions());
+            setQuestions([]);
         } finally {
             setLoading(false);
         }
     };
 
-    const getMockQuestions = (): Question[] => {
-        return [
-            {
-                id: 1,
-                latex: '\\int_{0}^{1} x^2 \\, dx',
-                topic: 'Calculus',
-                options: ['1/3', '1/2', '2/3', '1'],
-                correctAnswer: 0
-            },
-            {
-                id: 2,
-                latex: '\\frac{d}{dx}(x^3 + 2x)',
-                topic: 'Calculus',
-                options: ['3x² + 2', 'x² + 2', '3x² + 2x', 'x³ + 2'],
-                correctAnswer: 0
-            },
-            {
-                id: 3,
-                latex: '\\sum_{i=1}^{n} i',
-                topic: 'Sequences and Series',
-                options: ['n(n+1)/2', 'n²', 'n(n-1)/2', '2n'],
-                correctAnswer: 0
-            }
-        ];
+    const renderContentBlock = (block: ContentBlock) => {
+        switch (block.type) {
+            case 'latex':
+                return <Latex key={block.id}>{`$$${block.content}$$`}</Latex>;
+            case 'image':
+                return <img key={block.id} src={block.content} alt="Question content" className="question-image" />;
+            case 'text':
+                return <p key={block.id} className="question-text">{block.content}</p>;
+            default:
+                return null;
+        }
     };
-
-    const filteredQuestions = selectedTopic === 'all'
-        ? questions
-        : questions.filter(q => q.topic.toLowerCase() === selectedTopic.toLowerCase());
 
     return (
         <div className="paper-screen">
@@ -119,40 +107,41 @@ const Paper1 = () => {
                         <i className="fas fa-spinner fa-spin"></i>
                         <p>Loading questions...</p>
                     </div>
-                ) : filteredQuestions.length === 0 ? (
+                ) : questions.length === 0 ? (
                     <div className="no-questions">
                         <i className="fas fa-inbox"></i>
                         <p>No questions available yet</p>
-                        <p className="sub-text">Questions will appear here once they are published</p>
+                        <p className="sub-text">Questions will appear here once they are published from the Admin Dashboard</p>
                     </div>
                 ) : (
                     <div className="questions-grid">
-                        {filteredQuestions.map((question, index) => (
-                            <div key={question.id} className="question-card">
+                        {questions.map((question, index) => (
+                            <div key={question._id} className="question-card">
                                 <div className="question-header">
                                     <span className="question-number">Question {index + 1}</span>
                                     <span className="question-topic">{question.topic}</span>
                                 </div>
 
                                 <div className="question-content">
-                                    <div className="latex-display">
-                                        <Latex>{`$$${question.latex}$$`}</Latex>
-                                    </div>
-                                </div>
-
-                                <div className="question-options">
-                                    {question.options.map((option, optIndex) => (
-                                        <button
-                                            key={optIndex}
-                                            className="option-btn"
-                                        >
-                                            <span className="option-label">
-                                                {String.fromCharCode(65 + optIndex)}
-                                            </span>
-                                            <span className="option-text">{option}</span>
-                                        </button>
+                                    {question.questionBlocks.map(block => (
+                                        <div key={block.id} className="content-block-display">
+                                            {renderContentBlock(block)}
+                                        </div>
                                     ))}
                                 </div>
+
+                                {question.answerBlocks.length > 0 && (
+                                    <details className="answer-section">
+                                        <summary>View Answer</summary>
+                                        <div className="answer-content">
+                                            {question.answerBlocks.map(block => (
+                                                <div key={block.id} className="content-block-display">
+                                                    {renderContentBlock(block)}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </details>
+                                )}
                             </div>
                         ))}
                     </div>
@@ -163,7 +152,7 @@ const Paper1 = () => {
             <div className="bottom-stats">
                 <div className="stat-item">
                     <i className="fas fa-list"></i>
-                    <span>{filteredQuestions.length} Questions</span>
+                    <span>{questions.length} Questions</span>
                 </div>
                 <div className="stat-item">
                     <i className="fas fa-book"></i>

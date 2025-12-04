@@ -87,7 +87,7 @@ const AdminDashboard = () => {
         reader.readAsDataURL(file);
     };
 
-    const handlePublish = () => {
+    const handlePublish = async () => {
         const question: Question = {
             topic: selectedTopic,
             paper: selectedPaper,
@@ -95,13 +95,32 @@ const AdminDashboard = () => {
             answerBlocks
         };
 
-        console.log('Publishing question:', question);
-        // TODO: Send to backend API
-        alert('Question published successfully!');
+        try {
+            const response = await fetch('http://localhost:3000/api/questions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(question)
+            });
 
-        // Reset form
-        setQuestionBlocks([{ id: Date.now().toString(), type: 'latex', content: '' }]);
-        setAnswerBlocks([{ id: Date.now().toString(), type: 'latex', content: '' }]);
+            if (response.ok) {
+                const data = await response.json();
+                alert('✅ Question published successfully!');
+                console.log('Published question:', data);
+
+                // Reset form
+                setQuestionBlocks([{ id: Date.now().toString(), type: 'latex', content: '' }]);
+                setAnswerBlocks([{ id: Date.now().toString(), type: 'latex', content: '' }]);
+                setSelectedTopic('');
+            } else {
+                const error = await response.json();
+                alert(`❌ Failed to publish: ${error.error}`);
+            }
+        } catch (error) {
+            console.error('Error publishing question:', error);
+            alert('❌ Error connecting to server. Make sure the backend is running.');
+        }
     };
 
     const renderBlock = (block: ContentBlock, section: 'question' | 'answer') => {
