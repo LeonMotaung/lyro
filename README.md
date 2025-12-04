@@ -1,73 +1,150 @@
-# React + TypeScript + Vite
+# Lyro React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack React application with Express backend, featuring math learning tools with LaTeX support.
 
-Currently, two official plugins are available:
+## Project Structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+lyro-react/
+├── vite/                  # Frontend (React + TypeScript + Vite)
+│   ├── src/              # React components and pages
+│   ├── public/           # Static assets
+│   └── package.json      # Frontend dependencies
+├── backend/              # Backend (Express.js)
+│   └── server.js         # API server
+├── App.js                # Concurrent runner (starts both servers)
+├── package.json          # Root dependencies
+└── HOST.md               # Deployment guide
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Tech Stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Frontend (`/vite`)
+- React 19
+- TypeScript
+- Vite
+- React Router
+- KaTeX (Math rendering)
+- React LaTeX Next
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Backend (`/backend`)
+- Express.js
+- CORS enabled
+- REST API
+
+## Quick Start
+
+### Prerequisites
+- Node.js v18 or higher
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd lyro-react
+   ```
+
+2. **Install all dependencies**:
+   ```bash
+   # Install root dependencies
+   npm install
+   
+   # Install frontend dependencies
+   cd vite
+   npm install
+   cd ..
+   
+   # Or use the convenience script
+   npm run install:all
+   ```
+
+### Running the Application
+
+**Start both frontend and backend concurrently**:
+```bash
+npm start
 ```
+
+This will start:
+- Backend API on `http://localhost:3000`
+- Frontend on `http://localhost:5173`
+
+**Access the application**:
+- Open `http://localhost:5173` in your browser
+
+### Development Commands
+
+```bash
+# Start both servers (recommended)
+npm start
+
+# Start frontend only
+npm run dev
+
+# Start backend only
+npm run backend
+
+# Build frontend for production
+npm run build
+
+# Install all dependencies (root + vite)
+npm run install:all
+```
+
+## Features
+
+- 🧮 **Math Learning Tools** - Interactive math learning with LaTeX support
+- 📝 **Formula Sheet** - Quick reference for mathematical formulas
+- 👤 **User Authentication** - Login and signup pages
+- 🎓 **Onboarding Flow** - Guided user onboarding
+- 📱 **Responsive Design** - Works on all devices
+- ⚡ **Fast Development** - Hot Module Replacement with Vite
+
+## Deployment
+
+See [HOST.md](./HOST.md) for comprehensive deployment instructions including:
+- Local development setup
+- Production deployment options
+- Cloud deployment (Railway, Render, Heroku, etc.)
+- Environment configuration
+- Troubleshooting guide
+
+For Render-specific deployment, see [RENDER.md](./RENDER.md).
+
+## Environment Variables
+
+### Backend (`.env` in root)
+```env
+PORT=3000
+NODE_ENV=development
+```
+
+### Frontend (`.env` in `/vite`)
+```env
+VITE_API_URL=http://localhost:3000
+```
+
+## Project Documentation
+
+- **[HOST.md](./HOST.md)** - Complete deployment guide
+- **[RENDER.md](./RENDER.md)** - Render-specific deployment guide
+- **[RENDER_CHECKLIST.md](./RENDER_CHECKLIST.md)** - Deployment checklist
+- **[vite/README.md](./vite/README.md)** - Frontend-specific documentation
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is private and proprietary.
+
+---
+
+**Built with ❤️ using React + Vite + Express**
