@@ -35,22 +35,22 @@ const Learn = () => {
                 </div>
 
                 <div className="paper-cards">
-                    <a href="#" className="card card-teal">
+                    <Link to="/paper1" className="card card-teal">
                         <div className="card-icons">
                             <i className="fas fa-square-root-alt"></i>
                             <span className="eq">x = -b ± √...</span>
                         </div>
                         <div className="card-title">Paper 1<br />Algebra</div>
                         <div className="chevron"><i className="fas fa-chevron-right"></i></div>
-                    </a>
-                    <a href="#" className="card card-orange">
+                    </Link>
+                    <Link to="/paper2" className="card card-orange">
                         <div className="card-icons">
                             <i className="fas fa-shapes"></i>
                             <span className="eq">sin²θ + cos²θ</span>
                         </div>
                         <div className="card-title">Paper 2<br />Geometry</div>
                         <div className="chevron"><i className="fas fa-chevron-right"></i></div>
-                    </a>
+                    </Link>
                 </div>
 
                 <div className="utilities">

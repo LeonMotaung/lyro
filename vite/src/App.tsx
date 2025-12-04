@@ -6,6 +6,8 @@ import FormulaSheet from './FormulaSheet';
 import Login from './Login';
 import Signup from './Signup';
 import AdminDashboard from './AdminDashboard';
+import Paper1 from './Paper1';
+import Paper2 from './Paper2';
 import './App.css';
 
 function App() {
@@ -19,6 +21,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/paper1" element={<Paper1 />} />
+        <Route path="/paper2" element={<Paper2 />} />
       </Routes>
     </Router>
   );
