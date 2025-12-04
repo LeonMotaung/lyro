@@ -1,0 +1,160 @@
+/* FormulaSheet.css */
+
+:root {
+    --formula-bg-light: #f8f9fa;
+    --formula-bg-dark: #0f172a;
+    --formula-card-light: rgba(255, 255, 255, 0.9);
+    --formula-card-dark: rgba(30, 35, 45, 0.65);
+    --formula-text-light: #333;
+    --formula-text-dark: #fff;
+    --accent-teal: #1abc9c;
+}
+
+.formula-screen {
+    min-height: 100vh;
+    background: var(--formula-bg-light);
+    color: var(--formula-text-light);
+    padding-bottom: 40px;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode .formula-screen {
+    background: radial-gradient(circle at top right, #1e293b, #0f172a);
+    color: var(--formula-text-dark);
+}
+
+.formula-screen .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+body.dark-mode .formula-screen .header {
+    background: rgba(15, 23, 42, 0.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.back-btn {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.page-title {
+    display: none !important;
+}
+
+.formula-content {
+    padding: 24px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.formula-section {
+    margin-bottom: 40px;
+}
+
+.formula-section h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--accent-teal);
+    border-bottom: 2px solid rgba(26, 188, 156, 0.2);
+    padding-bottom: 8px;
+    display: inline-block;
+}
+
+.formula-card {
+    background: var(--formula-card-light);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+body.dark-mode .formula-card {
+    background: var(--formula-card-dark);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+}
+
+.formula-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 12px;
+    opacity: 0.8;
+}
+
+.formula-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .formula-row {
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.formula-row:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.formula-row span {
+    font-size: 12px;
+    opacity: 0.7;
+    margin-top: 4px;
+}
+
+/* Katex Overrides for visibility */
+.katex {
+    font-size: 1.1em;
+}
+
+/* Target all KaTeX math elements in dark mode - using teal color */
+body.dark-mode .katex .mord,
+body.dark-mode .katex .mbin,
+body.dark-mode .katex .mrel,
+body.dark-mode .katex .mopen,
+body.dark-mode .katex .mclose,
+body.dark-mode .katex .mpunct,
+body.dark-mode .katex .minner,
+body.dark-mode .katex .mop,
+body.dark-mode .katex .mfrac,
+body.dark-mode .katex .msqrt,
+body.dark-mode .katex .mroot,
+body.dark-mode .katex .vlist-t,
+body.dark-mode .katex .vlist-r,
+body.dark-mode .katex .vlist,
+body.dark-mode .katex .msupsub,
+body.dark-mode .katex .base,
+body.dark-mode .katex .strut,
+body.dark-mode .katex-html {
+    color: #1abc9c !important;
+}
+
+/* Ensure fraction lines are visible in teal */
+body.dark-mode .katex .frac-line {
+    border-bottom-color: #1abc9c !important;
+}
+
+/* Ensure square root lines are visible in teal */
+body.dark-mode .katex .sqrt-line {
+    border-top-color: #1abc9c !important;
+}
