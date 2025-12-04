@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Onboarding.css';
 
@@ -97,7 +97,7 @@ const Onboarding = () => {
                             <div className="illustration-container">
                                 <img src="/images/third.png" alt="Exam Success Illustration" className="onboarding-img" />
                             </div>
-                            <h2 className="headline">Track Progress & <span class="text-teal">Ace Exams</span>.</h2>
+                            <h2 className="headline">Track Progress & <span className="text-teal">Ace Exams</span>.</h2>
                             <p className="body">Simulate past papers under exam conditions and use detailed progress reports to focus on your weak areas.</p>
                         </div>
                         <div className="cta-row">
