@@ -214,12 +214,19 @@ if (isProduction) {
     // Handle React routing - return index.html for all non-API routes
     // Using middleware instead of route to avoid Express 5 path-to-regexp issues
     app.use((req, res, next) => {
-        // Skip API routes
+        // Skip API routes and health check
         if (req.path.startsWith('/api/') || req.path === '/healthz') {
             return next();
         }
-        // Serve index.html for all other routes (React Router handles client-side routing)
-        res.sendFile(path.join(__dirname, '../vite/dist/index.html'));
+
+        // For all other routes, serve index.html (React Router handles client-side routing)
+        const indexPath = path.join(__dirname, '../vite/dist/index.html');
+        res.sendFile(indexPath, (err) => {
+            if (err) {
+                console.error('Error serving index.html:', err);
+                res.status(500).send('Error loading application');
+            }
+        });
     });
 } else {
     // Development: Just show backend is running
