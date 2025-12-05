@@ -4,6 +4,7 @@ import Latex from 'react-latex-next';
 import 'katex/dist/katex.min.css';
 import './Paper.css';
 import './PaperContentBlocks.css';
+import apiClient from './api';
 
 interface ContentBlock {
     id: string;
@@ -42,7 +43,7 @@ const Paper1 = () => {
         setLoading(true);
         try {
             const topicParam = selectedTopic !== 'all' ? `?topic=${encodeURIComponent(selectedTopic)}` : '';
-            const response = await fetch(`/api/questions/paper/1${topicParam}`);
+            const response = await apiClient.get(`/api/questions/paper/1${topicParam}`);
 
             if (response.ok) {
                 const data = await response.json();

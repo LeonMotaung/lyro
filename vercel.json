@@ -1,7 +1,9 @@
 {
     "buildCommand": "cd vite && npm install && npm run build",
     "outputDirectory": "vite/dist",
-    "installCommand": "npm install && cd vite && npm install && cd ..",
-    "framework": null,
-    "devCommand": "npm start"
+    "framework": "vite",
+    "installCommand": "npm install",
+    "env": {
+        "VITE_API_URL": "https://lyro-backend.onrender.com"
+    }
 }

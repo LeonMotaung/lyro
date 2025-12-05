@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Latex from 'react-latex-next';
 import 'katex/dist/katex.min.css';
 import './AdminDashboard.css';
+import apiClient from './api';
 
 interface ContentBlock {
     id: string;
@@ -96,13 +97,7 @@ const AdminDashboard = () => {
         };
 
         try {
-            const response = await fetch('/api/questions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(question)
-            });
+            const response = await apiClient.post('/api/questions', question);
 
             if (response.ok) {
                 const data = await response.json();

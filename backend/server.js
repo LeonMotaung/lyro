@@ -11,7 +11,19 @@ const port = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(cors());
+// CORS Configuration - Allow Vercel frontend and localhost
+const corsOptions = {
+    origin: [
+        'http://localhost:5173',           // Vite dev server
+        'http://localhost:3000',           // Local production
+        'https://lyro-react.vercel.app',   // Vercel production
+        process.env.FRONTEND_URL           // Dynamic Vercel URL from env
+    ].filter(Boolean),
+    credentials: true,
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json({ limit: '50mb' })); // Increased limit for images
 
 // MongoDB Connection
