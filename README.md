@@ -107,16 +107,25 @@ npm run install:all
 
 ## Deployment
 
-### 🚀 Quick Deploy
+### 🚀 Recommended: Vercel (Frontend) + Render (Backend)
 
-See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for comprehensive deployment instructions including:
-- Step-by-step Render deployment guide
-- Environment variable configuration
-- Production vs Development modes
-- Troubleshooting common issues
-- MongoDB setup and connection
+This app is designed to deploy with:
+- **Frontend (Vite)** → Vercel
+- **Backend (Express)** → Render  
+- **Database** → MongoDB Atlas
 
-**TL;DR**: Push to GitHub → Connect to Render → Add `MONGODB_URI` env var → Deploy! 🎉
+**Quick Start:**
+1. See **[DEPLOYMENT_CHECKLIST.md](./DEPLOYMENT_CHECKLIST.md)** for quick steps
+2. See **[VERCEL_RENDER_DEPLOYMENT.md](./VERCEL_RENDER_DEPLOYMENT.md)** for detailed guide
+
+**Benefits:**
+- ✅ Free tier available on both platforms
+- ✅ Automatic deployments on git push
+- ✅ Separate scaling for frontend and backend
+- ✅ Global CDN for frontend (Vercel)
+- ✅ Easy environment variable management
+
+**Alternative:** You can also deploy the full stack to Render only. See [DEPLOYMENT.md](./DEPLOYMENT.md) for instructions.
 
 ## Environment Variables
 
