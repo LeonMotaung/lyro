@@ -16,7 +16,8 @@ const corsOptions = {
     origin: [
         'http://localhost:5173',           // Vite dev server
         'http://localhost:3000',           // Local production
-        'https://lyro-react.vercel.app',   // Vercel production
+        'https://lyro-two.vercel.app',     // Vercel production (actual URL)
+        'https://lyro-react.vercel.app',   // Vercel production (alternative)
         process.env.FRONTEND_URL           // Dynamic Vercel URL from env
     ].filter(Boolean),
     credentials: true,
