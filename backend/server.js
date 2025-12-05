@@ -212,7 +212,13 @@ if (isProduction) {
     }));
 
     // Handle React routing - return index.html for all non-API routes
-    app.get('/', (req, res) => {
+    // Using middleware instead of route to avoid Express 5 path-to-regexp issues
+    app.use((req, res, next) => {
+        // Skip API routes
+        if (req.path.startsWith('/api/') || req.path === '/healthz') {
+            return next();
+        }
+        // Serve index.html for all other routes (React Router handles client-side routing)
         res.sendFile(path.join(__dirname, '../vite/dist/index.html'));
     });
 } else {
