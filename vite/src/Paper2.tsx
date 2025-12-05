@@ -41,7 +41,7 @@ const Paper2 = () => {
         setLoading(true);
         try {
             const topicParam = selectedTopic !== 'all' ? `?topic=${encodeURIComponent(selectedTopic)}` : '';
-            const response = await fetch(`http://localhost:3000/api/questions/paper/2${topicParam}`);
+            const response = await fetch(`/api/questions/paper/2${topicParam}`);
 
             if (response.ok) {
                 const data = await response.json();
