@@ -221,7 +221,7 @@ if (isRenderDeployment) {
     console.log('Render deployment: Running as API-only backend');
 
     app.get('/', (req, res) => {
-        res.send('Work Hard Bruh I know life is though');
+        res.send('Work Hard Bruh I know life is tough');
     });
 } else if (isProduction) {
     // Local production - serve built frontend
