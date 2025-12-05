@@ -221,19 +221,7 @@ if (isRenderDeployment) {
     console.log('Render deployment: Running as API-only backend');
 
     app.get('/', (req, res) => {
-        res.json({
-            message: 'Lyro Backend API',
-            version: '1.0.0',
-            endpoints: {
-                health: '/healthz',
-                stats: '/api/stats',
-                paper1: '/api/questions/paper/1',
-                paper2: '/api/questions/paper/2',
-                createQuestion: 'POST /api/questions',
-                updateQuestion: 'PUT /api/questions/:id',
-                deleteQuestion: 'DELETE /api/questions/:id'
-            }
-        });
+        res.send('Work Hard Bruh I know life is though');
     });
 } else if (isProduction) {
     // Local production - serve built frontend
