@@ -210,11 +210,33 @@ app.get('/api/stats', async (req, res) => {
     }
 });
 
-// Production: Serve static files from vite/dist
-// Detect Render deployment or production mode
-const isProduction = process.env.RENDER || process.env.NODE_ENV !== 'development';
+// Check if we should serve frontend or be API-only
+// On Render (backend-only deployment), just serve API
+// In local production mode, serve the built frontend
+const isRenderDeployment = process.env.RENDER === 'true';
+const isProduction = process.env.NODE_ENV !== 'development';
 
-if (isProduction) {
+if (isRenderDeployment) {
+    // Render deployment - API only
+    console.log('Render deployment: Running as API-only backend');
+
+    app.get('/', (req, res) => {
+        res.json({
+            message: 'Lyro Backend API',
+            version: '1.0.0',
+            endpoints: {
+                health: '/healthz',
+                stats: '/api/stats',
+                paper1: '/api/questions/paper/1',
+                paper2: '/api/questions/paper/2',
+                createQuestion: 'POST /api/questions',
+                updateQuestion: 'PUT /api/questions/:id',
+                deleteQuestion: 'DELETE /api/questions/:id'
+            }
+        });
+    });
+} else if (isProduction) {
+    // Local production - serve built frontend
     console.log('Production mode: Serving static files from vite/dist');
 
     // Serve static files with caching
@@ -224,7 +246,6 @@ if (isProduction) {
     }));
 
     // Handle React routing - return index.html for all non-API routes
-    // Using middleware instead of route to avoid Express 5 path-to-regexp issues
     app.use((req, res, next) => {
         // Skip API routes and health check
         if (req.path.startsWith('/api/') || req.path === '/healthz') {
