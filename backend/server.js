@@ -198,8 +198,10 @@ app.get('/api/stats', async (req, res) => {
     }
 });
 
-// Production: Serve static files from vite/dist
-if (process.env.NODE_ENV === 'production') {
+// Production: Serve static files from vite/dist (default unless NODE_ENV is 'development')
+const isProduction = process.env.NODE_ENV !== 'development';
+
+if (isProduction) {
     console.log('Production mode: Serving static files from vite/dist');
 
     // Serve static files with caching

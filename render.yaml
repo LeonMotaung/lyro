@@ -1,15 +1,15 @@
 services:
   - type: web
-    name: lyro
-    env: node
-    region: oregon
+    name: lyro-react
+    runtime: node
     plan: free
-    branch: main
-    buildCommand: npm install && cd vite && npm install && cd .. && npm run build
+    buildCommand: npm install && npm run build
     startCommand: npm start
     envVars:
-      - key: NODE_ENV
-        value: production
+      - key: NODE_VERSION
+        value: 20.11.0
+      - key: MONGODB_URI
+        sync: false
       - key: PORT
         value: 10000
     healthCheckPath: /healthz

@@ -62,9 +62,12 @@ lyro-react/
 
 ### Running the Application
 
+#### Development Mode
 **Start both frontend and backend concurrently**:
 ```bash
-npm start
+NODE_ENV=development npm start
+# or on Windows:
+set NODE_ENV=development && npm start
 ```
 
 This will start:
@@ -104,19 +107,22 @@ npm run install:all
 
 ## Deployment
 
-See [HOST.md](./HOST.md) for comprehensive deployment instructions including:
-- Local development setup
-- Production deployment options
-- Cloud deployment (Railway, Render, Heroku, etc.)
-- Environment configuration
-- Troubleshooting guide
+### 🚀 Quick Deploy
 
-For Render-specific deployment, see [RENDER.md](./RENDER.md).
+See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for comprehensive deployment instructions including:
+- Step-by-step Render deployment guide
+- Environment variable configuration
+- Production vs Development modes
+- Troubleshooting common issues
+- MongoDB setup and connection
+
+**TL;DR**: Push to GitHub → Connect to Render → Add `MONGODB_URI` env var → Deploy! 🎉
 
 ## Environment Variables
 
 ### Backend (`.env` in root)
 ```env
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/lyromaths
 PORT=3000
 NODE_ENV=development
 ```
@@ -126,11 +132,11 @@ NODE_ENV=development
 VITE_API_URL=http://localhost:3000
 ```
 
+**Note**: For production deployment, set these as environment variables in your hosting platform (e.g., Render).
+
 ## Project Documentation
 
-- **[HOST.md](./HOST.md)** - Complete deployment guide
-- **[RENDER.md](./RENDER.md)** - Render-specific deployment guide
-- **[RENDER_CHECKLIST.md](./RENDER_CHECKLIST.md)** - Deployment checklist
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - 🚀 Complete deployment guide (Render)
 - **[vite/README.md](./vite/README.md)** - Frontend-specific documentation
 
 ## Contributing

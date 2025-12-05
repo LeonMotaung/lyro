@@ -7,6 +7,7 @@
     "start": "node App.js",
     "dev": "cd vite && npm run dev",
     "build": "cd vite && npm run build",
+    "postinstall": "cd vite && npm install && cd ..",
     "install:all": "npm install && cd vite && npm install && cd ..",
     "backend": "node backend/server.js"
   },
