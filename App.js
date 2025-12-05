@@ -5,11 +5,16 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Default to production unless explicitly set to development
-const isProduction = process.env.NODE_ENV !== 'development';
+// Detect if running on Render or in production
+// RENDER is set by Render.com automatically
+// Only run in development if explicitly set AND not on Render
+const isProduction = process.env.RENDER || process.env.NODE_ENV !== 'development';
 
 console.log(`Starting Lyro React App in ${isProduction ? 'PRODUCTION' : 'DEVELOPMENT'} mode...`);
-console.log(`NODE_ENV: ${process.env.NODE_ENV || 'not set (defaulting to production)'}`);
+console.log(`Environment details:`);
+console.log(`  - NODE_ENV: ${process.env.NODE_ENV || 'not set'}`);
+console.log(`  - RENDER: ${process.env.RENDER || 'not set'}`);
+console.log(`  - Running in: ${isProduction ? 'PRODUCTION' : 'DEVELOPMENT'} mode`);
 
 if (isProduction) {
     // Production: Only run backend (it serves the built frontend)
