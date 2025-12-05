@@ -212,7 +212,7 @@ if (isProduction) {
     }));
 
     // Handle React routing - return index.html for all non-API routes
-    app.get('*', (req, res) => {
+    app.get('/*', (req, res) => {
         res.sendFile(path.join(__dirname, '../vite/dist/index.html'));
     });
 } else {
